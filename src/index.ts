@@ -1,10 +1,15 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import path from 'path';
+import routes from './routes/index';
 import errorHandling from './middlewares/error';
 
 const app = express();
-const port = 3000;
+dotenv.config();
+const port = process.env.PORT;
 
-// app.use(userRoutes);
+app.use(express.static(path.join(__dirname, '../', 'public')));
+app.use('/images', routes);
 
 app.use(errorHandling);
 

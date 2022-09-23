@@ -1,5 +1,11 @@
 import express from 'express';
 
+interface Error {
+  message: string;
+  status?: number;
+  code?: number;
+}
+
 const errorHandling = (
   error: Error,
   req: express.Request,
@@ -7,9 +13,12 @@ const errorHandling = (
   next: express.NextFunction
 ) => {
   console.log(error);
-  // const statusCode: number = error.statusCode || 500;
+  // const code: string | undefined = error.code;
+  // const statusCode: number = code === undefined ? 500 : parseInt(code);
+  const statusCode: number = error.code || 500;
   const message: string = error.message;
-  res.status(500).json({ message });
+  res.status(statusCode).json({ message, statusCode });
+  next();
 };
 
 export default errorHandling;

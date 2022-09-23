@@ -4,7 +4,6 @@ import errorHandling from './middlewares/error';
 const app = express();
 const port = 3000;
 
-// app.use(authRoutes);
 // app.use(userRoutes);
 
 app.use(errorHandling);

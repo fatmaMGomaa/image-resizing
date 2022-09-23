@@ -1,10 +1,15 @@
-import { ErrorRequestHandler } from 'express';
+import express from 'express';
 
-const errorHandling: ErrorRequestHandler = (error, req, res, next) => {
+const errorHandling = (
+  error: Error,
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
   console.log(error);
-  const statusCode: number = error.statusCode || 500;
+  // const statusCode: number = error.statusCode || 500;
   const message: string = error.message;
-  res.status(statusCode).json({ message });
+  res.status(500).json({ message });
 };
 
 export default errorHandling;

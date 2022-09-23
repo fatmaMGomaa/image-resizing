@@ -11,7 +11,7 @@ export const postResizingImage = (
     // const error = new Error("something went wrong");
     // error.code = 404;
     // throw error;
-    const file_name: string = req.query.file_name as string;
+    const file_name = req.query.file_name as string;
     const width: number = parseInt(req.query.width as string);
     const height: number = parseInt(req.query.height as string);
     const root_path = path.join(__dirname, '../../../', 'public');
@@ -21,7 +21,9 @@ export const postResizingImage = (
       .resize(width, height)
       .toFile(path.join(root_path, 'caching', new_file_name))
       .then(() => {
-        res.redirect(`${process.env.ROOT_URL}/caching/${new_file_name}`);
+        res
+          .status(200)
+          .redirect(`${process.env.ROOT_URL}/caching/${new_file_name}`);
       });
   } catch (error) {
     next(error);

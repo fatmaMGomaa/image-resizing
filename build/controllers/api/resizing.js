@@ -20,7 +20,9 @@ var postResizingImage = function (req, res, next) {
             .resize(width, height)
             .toFile(path_1.default.join(root_path, 'caching', new_file_name_1))
             .then(function () {
-            res.redirect("".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name_1));
+            res
+                .status(200)
+                .redirect("".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name_1));
         });
     }
     catch (error) {

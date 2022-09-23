@@ -6,7 +6,7 @@ var errorHandling = function (error, req, res, next) {
     // const statusCode: number = code === undefined ? 500 : parseInt(code);
     var statusCode = error.code || 500;
     var message = error.message;
-    res.status(statusCode).json({ message: message, statusCode: statusCode });
+    res.status(statusCode).json({ message: message });
     next();
 };
 exports.default = errorHandling;

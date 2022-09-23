@@ -17,7 +17,7 @@ const errorHandling = (
   // const statusCode: number = code === undefined ? 500 : parseInt(code);
   const statusCode: number = error.code || 500;
   const message: string = error.message;
-  res.status(statusCode).json({ message, statusCode });
+  res.status(statusCode).json({ message });
   next();
 };
 

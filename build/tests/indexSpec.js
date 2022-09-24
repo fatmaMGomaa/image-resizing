@@ -47,7 +47,7 @@ describe('Test images resizing endpoints responses', function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/images/api/resizing?width=200&height=200&file_name=dogs.jpeg')];
+                case 0: return [4 /*yield*/, request.get('/images/api/resizing?width=300&height=300&file_name=dogs.jpeg')];
                 case 1:
                     response = _a.sent();
                     expect(response.statusType).toBe(2);
@@ -55,7 +55,7 @@ describe('Test images resizing endpoints responses', function () {
             }
         });
     }); });
-    it('uncorrect string params-resizing endpoint server error', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('uncorrect width or height params-resizing endpoint server error', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -63,7 +63,20 @@ describe('Test images resizing endpoints responses', function () {
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(500);
-                    expect(response.body.message).toEqual('Query Params are incorrect.');
+                    expect(response.body.message).toEqual('Invalid width or height Params');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('uncorrect filename params-resizing endpoint server error', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/images/api/resizing?width=200&height=200')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(400);
+                    expect(response.body.message).toEqual('Invaild file_name param');
                     return [2 /*return*/];
             }
         });
@@ -87,11 +100,11 @@ describe('Test images resizing middlewares', function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/images/api/resizing?width=200&height=200&file_name=dogs.jpeg')];
+                case 0: return [4 /*yield*/, request.get('/images/api/resizing?width=300&height=300&file_name=dogs.jpeg')];
                 case 1:
                     response = _a.sent();
                     expect(response.statusCode).toBe(200);
-                    expect(response.header.location).toEqual('http://localhost:3000/caching/200_200_dogs.jpeg?cached=true');
+                    expect(response.header.location).toEqual('http://localhost:3000/caching/300_300_dogs.jpeg?cached=true');
                     return [2 /*return*/];
             }
         });

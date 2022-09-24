@@ -39,36 +39,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postResizingImage = void 0;
-var generateSize_1 = __importDefault(require("../../utilities/generateSize"));
-var postResizingImage = function (req, res, next) {
-    try {
-        if (typeof req.query.width === 'string' &&
-            typeof req.query.height === 'string' &&
-            !isNaN(parseInt(req.query.width)) &&
-            !isNaN(parseInt(req.query.height))) {
-            var file_name_1 = req.query.file_name;
-            var width_1 = parseInt(req.query.width);
-            var height_1 = parseInt(req.query.height);
-            (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var new_file_name;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, (0, generateSize_1.default)(width_1, height_1, file_name_1)];
-                        case 1:
-                            new_file_name = _a.sent();
-                            res.redirect(200, "".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name));
-                            return [2 /*return*/];
-                    }
-                });
-            }); })();
+var path_1 = __importDefault(require("path"));
+var fs_1 = __importDefault(require("fs"));
+var sharp_1 = __importDefault(require("sharp"));
+var generateSize = function (width, height, file_name) { return __awaiter(void 0, void 0, void 0, function () {
+    var root_path, images_path, new_file_path;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                root_path = path_1.default.join(__dirname, '../../', 'public');
+                images_path = path_1.default.join(root_path, 'images', file_name);
+                if (!fs_1.default.existsSync(path_1.default.join(root_path, 'caching'))) {
+                    fs_1.default.mkdirSync(path_1.default.join(root_path, 'caching'));
+                }
+                new_file_path = path_1.default.join(root_path, 'caching', "".concat(width, "_").concat(height, "_").concat(file_name));
+                return [4 /*yield*/, (0, sharp_1.default)(images_path).resize(width, height).toFile(new_file_path)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/, path_1.default.basename(new_file_path)];
         }
-        else {
-            throw new Error('Invalid width or height Params');
-        }
-    }
-    catch (error) {
-        next(error);
-    }
-};
-exports.postResizingImage = postResizingImage;
+    });
+}); };
+exports.default = generateSize;

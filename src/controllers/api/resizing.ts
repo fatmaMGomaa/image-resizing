@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import path from 'path';
-import sharp from 'sharp';
+import generateSize from '../../utilities/generateSize';
 
 export const postResizingImage = (
   req: Request,
@@ -8,20 +7,22 @@ export const postResizingImage = (
   next: NextFunction
 ) => {
   try {
-    const file_name = req.query.file_name as string;
-    const width: number = parseInt(req.query.width as string);
-    const height: number = parseInt(req.query.height as string);
-    const root_path = path.join(__dirname, '../../../', 'public');
-    const new_file_name = `${width}_${height}_${file_name}`;
-    if (width && height && file_name) {
-      sharp(path.join(root_path, 'images', file_name))
-        .resize(width, height)
-        .toFile(path.join(root_path, 'caching', new_file_name))
-        .then(() => {
-          res.redirect(200, `${process.env.ROOT_URL}/caching/${new_file_name}`);
-        });
+    if (
+      typeof req.query.width === 'string' &&
+      typeof req.query.height === 'string' &&
+      !isNaN(parseInt(req.query.width as string)) &&
+      !isNaN(parseInt(req.query.height as string))
+    ) {
+      const file_name = req.query.file_name as string;
+      const width: number = parseInt(req.query.width as string);
+      const height: number = parseInt(req.query.height as string);
+
+      (async () => {
+        const new_file_name = await generateSize(width, height, file_name);
+        res.redirect(200, `${process.env.ROOT_URL}/caching/${new_file_name}`);
+      })();
     } else {
-      throw new Error('Query Params are incorrect.');
+      throw new Error('Invalid width or height Params');
     }
   } catch (error) {
     next(error);

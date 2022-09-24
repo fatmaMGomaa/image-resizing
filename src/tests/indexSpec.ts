@@ -6,17 +6,25 @@ const request = supertest(app);
 describe('Test images resizing endpoints responses', () => {
   it('resizing an image response test', async () => {
     const response = await request.get(
-      '/images/api/resizing?width=200&height=200&file_name=dogs.jpeg'
+      '/images/api/resizing?width=300&height=300&file_name=dogs.jpeg'
     );
     expect(response.statusType).toBe(2);
   });
 
-  it('uncorrect string params-resizing endpoint server error', async () => {
+  it('uncorrect width or height params-resizing endpoint server error', async () => {
     const response = await request.get(
       '/images/api/resizing?file_name=dogs.jpeg'
     );
     expect(response.status).toBe(500);
-    expect(response.body.message).toEqual('Query Params are incorrect.');
+    expect(response.body.message).toEqual('Invalid width or height Params');
+  });
+
+  it('uncorrect filename params-resizing endpoint server error', async () => {
+    const response = await request.get(
+      '/images/api/resizing?width=200&height=200'
+    );
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual('Invaild file_name param');
   });
 });
 
@@ -31,11 +39,11 @@ describe('Test images resizing middlewares', () => {
 
   it('test caching middleware - cached image ', async () => {
     const response = await request.get(
-      '/images/api/resizing?width=200&height=200&file_name=dogs.jpeg'
+      '/images/api/resizing?width=300&height=300&file_name=dogs.jpeg'
     );
     expect(response.statusCode).toBe(200);
     expect(response.header.location).toEqual(
-      'http://localhost:3000/caching/200_200_dogs.jpeg?cached=true'
+      'http://localhost:3000/caching/300_300_dogs.jpeg?cached=true'
     );
   });
 });

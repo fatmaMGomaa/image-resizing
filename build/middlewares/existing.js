@@ -6,13 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var fs_1 = __importDefault(require("fs"));
 var existingChecking = function (req, res, next) {
-    var file_name = req.query.file_name;
-    var image_path = path_1.default.join(__dirname, '../../', 'public', 'images', file_name);
-    if (fs_1.default.existsSync(image_path)) {
-        next();
+    if (typeof req.query.file_name === 'string' && req.query.file_name !== '') {
+        var file_name = req.query.file_name;
+        var image_path = path_1.default.join(__dirname, '../../', 'public', 'images', file_name);
+        if (fs_1.default.existsSync(image_path)) {
+            next();
+        }
+        else {
+            res.status(404).json({ message: 'Image is not existing' });
+        }
     }
     else {
-        res.status(404).json({ message: 'Image is not existing' });
+        res.status(400).json({ message: 'Invaild file_name param' });
     }
 };
 exports.default = existingChecking;

@@ -39,36 +39,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postResizingImage = void 0;
-var generateSize_1 = __importDefault(require("../../utilities/generateSize"));
-var postResizingImage = function (req, res, next) {
-    try {
-        if (typeof req.query.width === 'string' &&
-            typeof req.query.height === 'string' &&
-            !isNaN(parseInt(req.query.width)) &&
-            !isNaN(parseInt(req.query.height))) {
-            var file_name_1 = req.query.file_name;
-            var width_1 = parseInt(req.query.width);
-            var height_1 = parseInt(req.query.height);
-            (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var new_file_name;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, (0, generateSize_1.default)(width_1, height_1, file_name_1)];
-                        case 1:
-                            new_file_name = _a.sent();
-                            res.redirect(200, "".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name));
-                            return [2 /*return*/];
-                    }
-                });
-            }); })();
-        }
-        else {
-            throw new Error('Invalid width or height Params');
-        }
-    }
-    catch (error) {
-        next(error);
-    }
-};
-exports.postResizingImage = postResizingImage;
+var generateSize_1 = __importDefault(require("../utilities/generateSize"));
+describe('Test utilities functions', function () {
+    it('Test generateSize function', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var new_image_path;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, generateSize_1.default)(500, 500, 'dogs.jpeg')];
+                case 1:
+                    new_image_path = _a.sent();
+                    expect(new_image_path).toEqual('500_500_dogs.jpeg');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});

@@ -13,9 +13,10 @@ const cachingChecking = (
   const root_path = path.join(__dirname, '../../', 'public');
   const new_file_name = `${width}_${height}_${file_name}`;
   if (fs.existsSync(path.join(root_path, 'caching', new_file_name))) {
-    res
-      .status(200)
-      .redirect(`${process.env.ROOT_URL}/caching/${new_file_name}`);
+    res.redirect(
+      200,
+      `${process.env.ROOT_URL}/caching/${new_file_name}?cached=true`
+    );
   } else {
     next();
   }

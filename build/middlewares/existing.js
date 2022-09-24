@@ -12,7 +12,7 @@ var existingChecking = function (req, res, next) {
         next();
     }
     else {
-        res.status(404).send('Image is not existing');
+        res.status(404).json({ message: 'Image is not existing' });
     }
 };
 exports.default = existingChecking;

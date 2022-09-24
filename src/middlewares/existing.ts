@@ -18,7 +18,7 @@ const existingChecking = (
   if (fs.existsSync(image_path)) {
     next();
   } else {
-    res.status(404).send('Image is not existing');
+    res.status(404).json({ message: 'Image is not existing' });
   }
 };
 

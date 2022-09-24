@@ -12,9 +12,7 @@ var cachingChecking = function (req, res, next) {
     var root_path = path_1.default.join(__dirname, '../../', 'public');
     var new_file_name = "".concat(width, "_").concat(height, "_").concat(file_name);
     if (fs_1.default.existsSync(path_1.default.join(root_path, 'caching', new_file_name))) {
-        res
-            .status(200)
-            .redirect("".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name));
+        res.redirect(200, "".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name, "?cached=true"));
     }
     else {
         next();

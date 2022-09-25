@@ -51,13 +51,13 @@ var postResizingImage = function (req, res, next) {
             var width_1 = parseInt(req.query.width);
             var height_1 = parseInt(req.query.height);
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var new_file_name;
+                var new_file_path;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, (0, generateSize_1.default)(width_1, height_1, file_name_1)];
                         case 1:
-                            new_file_name = _a.sent();
-                            res.redirect(200, "".concat(process.env.ROOT_URL, "/caching/").concat(new_file_name));
+                            new_file_path = _a.sent();
+                            res.sendFile(new_file_path);
                             return [2 /*return*/];
                     }
                 });

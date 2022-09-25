@@ -56,7 +56,7 @@ var generateSize = function (width, height, file_name) { return __awaiter(void 0
                 return [4 /*yield*/, (0, sharp_1.default)(images_path).resize(width, height).toFile(new_file_path)];
             case 1:
                 _a.sent();
-                return [2 /*return*/, path_1.default.basename(new_file_path)];
+                return [2 /*return*/, new_file_path];
         }
     });
 }); };

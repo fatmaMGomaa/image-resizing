@@ -11,12 +11,13 @@ const cachingChecking = (
   const width: string = req.query.width as string;
   const height: string = req.query.height as string;
   const root_path = path.join(__dirname, '../../', 'public');
-  const new_file_name = `${width}_${height}_${file_name}`;
-  if (fs.existsSync(path.join(root_path, 'caching', new_file_name))) {
-    res.redirect(
-      200,
-      `${process.env.ROOT_URL}/caching/${new_file_name}?cached=true`
-    );
+  const cached_file_path: string = path.join(
+    root_path,
+    'caching',
+    `${width}_${height}_${file_name}`
+  );
+  if (fs.existsSync(cached_file_path)) {
+    res.sendFile(cached_file_path);
   } else {
     next();
   }

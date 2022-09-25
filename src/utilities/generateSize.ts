@@ -18,7 +18,7 @@ const generateSize = async (
     `${width}_${height}_${file_name}`
   );
   await sharp(images_path).resize(width, height).toFile(new_file_path);
-  return path.basename(new_file_path);
+  return new_file_path;
 };
 
 export default generateSize;

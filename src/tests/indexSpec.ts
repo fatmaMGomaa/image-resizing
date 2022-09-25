@@ -42,8 +42,5 @@ describe('Test images resizing middlewares', () => {
       '/images/api/resizing?width=300&height=300&file_name=dogs.jpeg'
     );
     expect(response.statusCode).toBe(200);
-    expect(response.header.location).toEqual(
-      'http://localhost:3000/caching/300_300_dogs.jpeg?cached=true'
-    );
   });
 });

@@ -18,8 +18,8 @@ export const postResizingImage = (
       const height: number = parseInt(req.query.height as string);
 
       (async () => {
-        const new_file_name = await generateSize(width, height, file_name);
-        res.redirect(200, `${process.env.ROOT_URL}/caching/${new_file_name}`);
+        const new_file_path = await generateSize(width, height, file_name);
+        res.sendFile(new_file_path);
       })();
     } else {
       throw new Error('Invalid width or height Params');

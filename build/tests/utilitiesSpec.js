@@ -40,15 +40,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var generateSize_1 = __importDefault(require("../utilities/generateSize"));
+var path_1 = __importDefault(require("path"));
 describe('Test utilities functions', function () {
     it('Test generateSize function', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var new_image_path;
+        var root_path, new_image_path;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, generateSize_1.default)(500, 500, 'dogs.jpeg')];
+                case 0:
+                    root_path = path_1.default.join(__dirname, '../../', 'public');
+                    return [4 /*yield*/, (0, generateSize_1.default)(500, 500, 'dogs.jpeg')];
                 case 1:
                     new_image_path = _a.sent();
-                    expect(new_image_path).toEqual('500_500_dogs.jpeg');
+                    expect(new_image_path).toEqual(path_1.default.join(root_path, 'caching', '500_500_dogs.jpeg'));
                     return [2 /*return*/];
             }
         });

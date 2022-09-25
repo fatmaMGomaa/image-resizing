@@ -104,7 +104,6 @@ describe('Test images resizing middlewares', function () {
                 case 1:
                     response = _a.sent();
                     expect(response.statusCode).toBe(200);
-                    expect(response.header.location).toEqual('http://localhost:3000/caching/300_300_dogs.jpeg?cached=true');
                     return [2 /*return*/];
             }
         });
